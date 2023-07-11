@@ -155,4 +155,34 @@ public class FareCalculatorServiceTest {
         assertEquals( 0 , ticket.getPrice());
     }
 
+    @Test
+    public void calculateFareCarWithDiscount(){
+        Date inTime = new Date();
+        inTime.setTime( System.currentTimeMillis() - (  120 * 60 * 1000) );//120 minutes parking time with discount should give 2.850 parking fare
+        Date outTime = new Date();
+        outTime.setTime( System.currentTimeMillis());
+        ParkingSpot parkingSpot = new ParkingSpot(1, ParkingType.CAR,false);
+
+        ticket.setInTime(inTime);
+        ticket.setOutTime(outTime);
+        ticket.setParkingSpot(parkingSpot);
+        fareCalculatorService.calculateFare(ticket, true);
+        assertEquals( 2.85 , ticket.getPrice());
+    }
+
+    @Test
+    public void calculateFareBikeWithDiscount(){
+        Date inTime = new Date();
+        inTime.setTime( System.currentTimeMillis() - (  120 * 60 * 1000) );//120 minutes parking time with discount should give 1.900 parking fare
+        Date outTime = new Date();
+        outTime.setTime( System.currentTimeMillis());
+        ParkingSpot parkingSpot = new ParkingSpot(1, ParkingType.BIKE,false);
+
+        ticket.setInTime(inTime);
+        ticket.setOutTime(outTime);
+        ticket.setParkingSpot(parkingSpot);
+        fareCalculatorService.calculateFare(ticket, true);
+        assertEquals( 1.9 , ticket.getPrice());
+    }
+
 }
