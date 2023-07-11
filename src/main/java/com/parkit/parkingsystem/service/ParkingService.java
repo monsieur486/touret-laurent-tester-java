@@ -110,14 +110,18 @@ public class ParkingService {
             Ticket ticket = ticketDAO.getTicket(vehicleRegNumber);
             Date outTime = new Date();
             ticket.setOutTime(outTime);
-            boolean discunt = ticketDAO.getNbTicket(vehicleRegNumber) > 0;
+            boolean discount = ticketDAO.getNbTicket(vehicleRegNumber) > 0;
 
-            fareCalculatorService.calculateFare(ticket, discunt);
+            fareCalculatorService.calculateFare(ticket, discount);
             if (ticketDAO.updateTicket(ticket)) {
                 ParkingSpot parkingSpot = ticket.getParkingSpot();
                 parkingSpot.setAvailable(true);
                 parkingSpotDAO.updateParking(parkingSpot);
-                System.out.println("Please pay the parking fare:" + ticket.getPrice());
+                String payMessage = "Please pay the parking fare:" + ticket.getPrice();
+                if(discount){
+                    payMessage += " (with " + Fare.DISCUNT_PERCENTAGE * 100 + "% )";
+                }
+                System.out.println(payMessage);
                 System.out.println("Recorded out-time for vehicle number:" + ticket.getVehicleRegNumber() + " is:" + outTime);
             } else {
                 System.out.println("Unable to update ticket information. Error occurred");
