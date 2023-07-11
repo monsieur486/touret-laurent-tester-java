@@ -1,5 +1,6 @@
 package com.parkit.parkingsystem.service;
 
+import com.parkit.parkingsystem.constants.Fare;
 import com.parkit.parkingsystem.constants.ParkingType;
 import com.parkit.parkingsystem.dao.ParkingSpotDAO;
 import com.parkit.parkingsystem.dao.TicketDAO;
@@ -45,6 +46,13 @@ public class ParkingService {
                 ticket.setInTime(inTime);
                 ticket.setOutTime(null);
                 ticketDAO.saveTicket(ticket);
+                if(ticketDAO.getNbTicket(vehicleRegNumber)>0){
+                    StringBuilder sb = new StringBuilder();
+                    sb.append("Happy to see you again! As a regular user of our car park, you will receive a ");
+                    sb.append(Math.round(Fare.DISCUNT_PERCENTAGE * 100));
+                    sb.append("% discount.");
+                    System.out.println(sb.toString());
+                }
                 System.out.println("Generated Ticket and saved in DB");
                 System.out.println("Please park your vehicle in spot number:"+parkingSpot.getId());
                 System.out.println("Recorded in-time for vehicle number:"+vehicleRegNumber+" is:"+inTime);
