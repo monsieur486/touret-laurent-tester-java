@@ -8,6 +8,8 @@ import com.parkit.parkingsystem.model.ParkingSpot;
 import com.parkit.parkingsystem.model.Ticket;
 import com.parkit.parkingsystem.service.ParkingService;
 import com.parkit.parkingsystem.util.InputReaderUtil;
+import junit.framework.Assert;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -17,6 +19,8 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.mockito.junit.jupiter.MockitoSettings;
 import org.mockito.quality.Strictness;
 
+import java.io.ByteArrayOutputStream;
+import java.io.PrintStream;
 import java.util.Date;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -25,9 +29,12 @@ import static org.mockito.Mockito.*;
 @ExtendWith(MockitoExtension.class)
 @MockitoSettings(strictness = Strictness.LENIENT)
 class ParkingServiceTest {
+    private final ByteArrayOutputStream out = new ByteArrayOutputStream();
+    private final ByteArrayOutputStream err = new ByteArrayOutputStream();
+    private final PrintStream originalOut = System.out;
+    private final PrintStream originalErr = System.err;
 
     private static ParkingService parkingService;
-
     @Mock
     private static InputReaderUtil inputReaderUtil;
     @Mock
@@ -57,6 +64,12 @@ class ParkingServiceTest {
         }
     }
 
+    @AfterEach
+    public void restoreInitialStreams() {
+        System.setOut(originalOut);
+        System.setErr(originalErr);
+    }
+
     @Test
     void processExitingVehicleTest() {
         parkingService.processExitingVehicle();
@@ -78,6 +91,13 @@ class ParkingServiceTest {
             e.printStackTrace();
             throw new RuntimeException("Failed to set up test mock objects");
         }
+    }
+
+    @Test void processExitingVehicleTestUnableUpdate() {
+        when(ticketDAO.updateTicket(any(Ticket.class))).thenReturn(false);
+        parkingService.processExitingVehicle();
+
+        Assert.assertEquals("", out.toString());
     }
 
 }
