@@ -7,7 +7,7 @@ import com.parkit.parkingsystem.util.RoundUtil;
 public class FareCalculatorService {
 
     public void calculateFare(Ticket ticket) {
-        calculateFare(ticket, false);
+        calculateFare(ticket, true);
     }
 
     public void calculateFare(Ticket ticket, boolean discount) {
