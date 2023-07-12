@@ -116,4 +116,19 @@ class ParkingServiceTest {
 
     }
 
+    @Test void testGetNextParkingNumberIfAvailableParkingNumberNotFound () {
+        try {
+            when(inputReaderUtil.readSelection()).thenReturn(1);
+            when(inputReaderUtil.readVehicleRegistrationNumber()).thenReturn("ABCDEF");
+            when(parkingSpotDAO.getNextAvailableSlot(ParkingType.CAR)).thenReturn(0);
+
+            Assert.assertEquals(null, parkingService.getNextParkingNumberIfAvailable());
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new RuntimeException("Failed to set up test mock objects");
+        }
+
+    }
+
 }
