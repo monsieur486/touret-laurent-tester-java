@@ -14,6 +14,8 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.mockito.junit.jupiter.MockitoSettings;
+import org.mockito.quality.Strictness;
 
 import java.util.Date;
 
@@ -21,6 +23,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
+@MockitoSettings(strictness = Strictness.LENIENT)
 class ParkingServiceTest {
 
     private static ParkingService parkingService;
@@ -59,6 +62,22 @@ class ParkingServiceTest {
         parkingService.processExitingVehicle();
         verify(parkingSpotDAO, Mockito.times(1)).updateParking(any(ParkingSpot.class));
         verify(ticketDAO, Mockito.times(1)).getNbTicket(any(String.class));
+    }
+
+    @Test void testProcessIncomingVehicle() {
+        try {
+            when(inputReaderUtil.readSelection()).thenReturn(1);
+            when(inputReaderUtil.readVehicleRegistrationNumber()).thenReturn("ABCDEF");
+            when(parkingSpotDAO.getNextAvailableSlot(ParkingType.CAR)).thenReturn(1);
+            parkingService.processIncomingVehicle();
+
+            verify(ticketDAO, Mockito.times(1)).getNbTicket(any(String.class));
+            verify(ticketDAO, Mockito.times(1)).saveTicket(any(Ticket.class));
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new RuntimeException("Failed to set up test mock objects");
+        }
     }
 
 }
