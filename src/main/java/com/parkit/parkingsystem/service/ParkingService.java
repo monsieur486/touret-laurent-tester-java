@@ -46,7 +46,7 @@ public class ParkingService {
                 ticket.setInTime(inTime);
                 ticket.setOutTime(null);
                 ticketDAO.saveTicket(ticket);
-                if (ticketDAO.getNbTicket(vehicleRegNumber) > 0) {
+                if (ticketDAO.getNbTicket(vehicleRegNumber) > 1) {
                     String sb = "Happy to see you again! As a regular user of our car park, you will receive a " +
                             Math.round(Fare.DISCUNT_PERCENTAGE * 100) +
                             "% discount.";
