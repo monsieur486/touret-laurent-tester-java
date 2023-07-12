@@ -100,4 +100,20 @@ class ParkingServiceTest {
         Assert.assertEquals("", out.toString());
     }
 
+    @Test void testGetNextParkingNumberIfAvailable () {
+        try {
+            when(inputReaderUtil.readSelection()).thenReturn(1);
+            when(inputReaderUtil.readVehicleRegistrationNumber()).thenReturn("ABCDEF");
+            when(parkingSpotDAO.getNextAvailableSlot(ParkingType.CAR)).thenReturn(1);
+            ParkingSpot parkingSpot = new ParkingSpot(1,ParkingType.CAR,true);
+
+            Assert.assertEquals(parkingSpot, parkingService.getNextParkingNumberIfAvailable());
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new RuntimeException("Failed to set up test mock objects");
+        }
+
+    }
+
 }
