@@ -131,4 +131,16 @@ class ParkingServiceTest {
 
     }
 
+    @Test void testGetNextParkingNumberIfAvailableParkingNumberWrongArgument () {
+        try {
+            when(inputReaderUtil.readSelection()).thenReturn(3);
+            Assert.assertEquals(null, parkingService.getNextParkingNumberIfAvailable());
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new RuntimeException("Failed to set up test mock objects");
+        }
+
+    }
+
 }
