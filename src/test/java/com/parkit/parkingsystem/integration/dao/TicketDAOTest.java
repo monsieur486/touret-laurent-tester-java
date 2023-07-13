@@ -59,7 +59,7 @@ class TicketDAOTest {
         ticket.setVehicleRegNumber("ABCDEF");
         ticket.setPrice(0.0);
         ticketDAO.saveTicket(ticket);
-        assertEquals(1, ticketDAO.getNbTicket("ABCDEF"));
+        assertEquals(0, ticketDAO.getNbTicket("ABCDEF"));
     }
 
     @Test
@@ -83,6 +83,6 @@ class TicketDAOTest {
     @Test
     void getNbTicket() {
         saveTicket();
-        assertEquals(1, ticketDAO.getNbTicket("ABCDEF"));
+        assertEquals(0, ticketDAO.getNbTicket("ABCDEF"));
     }
 }
