@@ -30,7 +30,7 @@ class TicketDAOTest {
     private static DataBasePrepareService dataBasePrepareService;
 
     @Mock
-    ParkingSpotDAO parkingSpotDAO;
+    private ParkingSpotDAO parkingSpotDAO;
 
     @BeforeAll
     public static void setUp() throws Exception {
