@@ -58,8 +58,8 @@ class ParkingDataBaseIT {
     void testParkingACar() {
         ParkingService parkingService = new ParkingService(inputReaderUtil, parkingSpotDAO, ticketDAO);
         parkingService.processIncomingVehicle();
-        Assert.assertEquals(0,ticketDAO.getNbTicket("ABCDEF"));
-        Assert.assertEquals(2,parkingSpotDAO.getNextAvailableSlot(ParkingType.CAR));
+        Assert.assertEquals(0, ticketDAO.getNbTicket("ABCDEF"));
+        Assert.assertEquals(2, parkingSpotDAO.getNextAvailableSlot(ParkingType.CAR));
     }
 
     @Test
@@ -70,7 +70,7 @@ class ParkingDataBaseIT {
 
         Ticket ticket = ticketDAO.getTicket("ABCDEF");
 
-        Assert.assertEquals(0.0,ticket.getPrice());
+        Assert.assertEquals(0.0, ticket.getPrice());
         assertNotNull(ticket.getOutTime());
     }
 

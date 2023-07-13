@@ -116,7 +116,7 @@ public class ParkingService {
                 parkingSpot.setAvailable(true);
                 parkingSpotDAO.updateParking(parkingSpot);
                 String payMessage = "Please pay the parking fare:" + ticket.getPrice();
-                if(discount){
+                if (discount) {
                     payMessage += " (with " + Fare.DISCUNT_PERCENTAGE * 100 + "% )";
                 }
                 System.out.println(payMessage);
