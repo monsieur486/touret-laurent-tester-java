@@ -38,15 +38,13 @@ public class ParkingService {
 
                 Date inTime = new Date();
                 Ticket ticket = new Ticket();
-                //ID, PARKING_NUMBER, VEHICLE_REG_NUMBER, PRICE, IN_TIME, OUT_TIME)
-                //ticket.setId(ticketID);
                 ticket.setParkingSpot(parkingSpot);
                 ticket.setVehicleRegNumber(vehicleRegNumber);
                 ticket.setPrice(0);
                 ticket.setInTime(inTime);
                 ticket.setOutTime(null);
                 ticketDAO.saveTicket(ticket);
-                if (ticketDAO.getNbTicket(vehicleRegNumber) > 1) {
+                if (ticketDAO.getNbTicket(vehicleRegNumber) > 0) {
                     String sb = "Happy to see you again! As a regular user of our car park, you will receive a " +
                             Math.round(Fare.DISCUNT_PERCENTAGE * 100) +
                             "% discount.";

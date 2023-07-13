@@ -143,4 +143,16 @@ class ParkingServiceTest {
 
     }
 
+    @Test void getVehichleTypeTest(){
+        try {
+            when(inputReaderUtil.readSelection()).thenReturn(2);
+            when(parkingSpotDAO.getNextAvailableSlot(ParkingType.BIKE)).thenReturn(4);
+            Assert.assertEquals(ParkingType.BIKE, parkingService.getNextParkingNumberIfAvailable().getParkingType());
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new RuntimeException("Failed to set up test mock objects");
+        }
+    }
+
 }
