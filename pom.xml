@@ -151,6 +151,11 @@
                     </execution>
                 </executions>
             </plugin>
+        </plugins>
+    </build>
+
+    <reporting>
+        <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-project-info-reports-plugin</artifactId>
@@ -163,11 +168,6 @@
                     </reportSet>
                 </reportSets>
             </plugin>
-        </plugins>
-    </build>
-
-    <reporting>
-        <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-report-plugin</artifactId>
