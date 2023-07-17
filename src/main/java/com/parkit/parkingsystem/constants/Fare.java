@@ -6,6 +6,7 @@ public class Fare {
     public static final double CAR_RATE_PER_HOUR = 1.5;
     public static final double FREE_IN_HOUR = 0.5;
     public static final double DISCUNT_PERCENTAGE = 0.05;
+
     private Fare() {
     }
 }
