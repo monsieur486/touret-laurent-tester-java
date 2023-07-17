@@ -158,4 +158,29 @@ class ParkingServiceTest {
         }
     }
 
+    @Test
+    void testProcessIncomingVehicleWithRecurrentUser() {
+        try {
+            when(inputReaderUtil.readSelection()).thenReturn(1);
+            when(inputReaderUtil.readVehicleRegistrationNumber()).thenReturn("ABCDEF");
+            when(parkingSpotDAO.getNextAvailableSlot(ParkingType.CAR)).thenReturn(1);
+            when(ticketDAO.getNbTicket("ABCDEF")).thenReturn(1);
+            parkingService.processIncomingVehicle();
+
+            verify(ticketDAO, Mockito.times(1)).saveTicket(any(Ticket.class));
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new RuntimeException("Failed to set up test mock objects");
+        }
+    }
+
+    @Test
+    void processExitingVehicleWithRecurrentUserTest() {
+        when(ticketDAO.getNbTicket("ABCDEF")).thenReturn(1);
+        parkingService.processExitingVehicle();
+        verify(parkingSpotDAO, Mockito.times(1)).updateParking(any(ParkingSpot.class));
+        verify(ticketDAO, Mockito.times(1)).getNbTicket(any(String.class));
+    }
+
 }
