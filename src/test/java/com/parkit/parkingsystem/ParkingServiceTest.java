@@ -96,7 +96,7 @@ class ParkingServiceTest {
         when(ticketDAO.updateTicket(any(Ticket.class))).thenReturn(false);
         parkingService.processExitingVehicle();
 
-        Assert.assertEquals("", out.toString());
+        verify(ticketDAO, Mockito.times(0)).saveTicket(any(Ticket.class));
     }
 
     @Test

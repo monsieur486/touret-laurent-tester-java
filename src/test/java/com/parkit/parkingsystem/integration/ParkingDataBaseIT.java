@@ -33,6 +33,7 @@ class ParkingDataBaseIT {
     @Mock
     private static InputReaderUtil inputReaderUtil;
 
+
     @BeforeAll
     public static void setUp() throws Exception {
         parkingSpotDAO = new ParkingSpotDAO();
@@ -63,18 +64,6 @@ class ParkingDataBaseIT {
     }
 
     @Test
-    void testParkingLotExit() {
-        testParkingACar();
-        ParkingService parkingService = new ParkingService(inputReaderUtil, parkingSpotDAO, ticketDAO);
-        parkingService.processExitingVehicle();
-
-        Ticket ticket = ticketDAO.getTicket("ABCDEF");
-
-        Assert.assertEquals(0.0, ticket.getPrice());
-        assertNotNull(ticket.getOutTime());
-    }
-
-    @Test
     void testParkingLotExitRecurringUser() {
         ParkingService parkingService = new ParkingService(inputReaderUtil, parkingSpotDAO, ticketDAO);
         parkingService.processIncomingVehicle();
@@ -99,6 +88,18 @@ class ParkingDataBaseIT {
         parkingService.processExitingVehicle();
         Ticket ticketOut = ticketDAO.getTicket("ABCDEF");
         Assert.assertEquals(1.5, ticketOut.getPrice());
+    }
+
+    @Test
+    void testParkingLotExit() {
+        ParkingService parkingService = new ParkingService(inputReaderUtil, parkingSpotDAO, ticketDAO);
+        parkingService.processIncomingVehicle();
+        parkingService.processExitingVehicle();
+
+        Ticket ticket = ticketDAO.getTicket("ABCDEF");
+
+        Assert.assertEquals(0.0, ticket.getPrice());
+        assertNotNull(ticket.getOutTime());
     }
 
 }
