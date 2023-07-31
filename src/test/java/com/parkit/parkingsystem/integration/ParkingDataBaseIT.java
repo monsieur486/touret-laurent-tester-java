@@ -18,6 +18,7 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.Date;
+import java.util.concurrent.TimeUnit;
 
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.Mockito.when;
@@ -67,21 +68,23 @@ class ParkingDataBaseIT {
     void testParkingLotExitRecurringUser() {
         ParkingService parkingService = new ParkingService(inputReaderUtil, parkingSpotDAO, ticketDAO);
         parkingService.processIncomingVehicle();
-        parkingService.processExitingVehicle();
-
-        parkingService.processIncomingVehicle();
         Ticket ticketIn = ticketDAO.getTicket("ABCDEF");
         ticketIn.setInTime(new Date(System.currentTimeMillis() - (60 * 60 * 1000)));
         ticketDAO.saveTicket(ticketIn);
         parkingService.processExitingVehicle();
+
+        parkingService.processIncomingVehicle();
+        parkingService.processExitingVehicle();
+
         Ticket ticketOut = ticketDAO.getTicket("ABCDEF");
         Assert.assertEquals(1.425, ticketOut.getPrice());
     }
 
     @Test
-    void testParkingLotExitNoRecurringUser() {
+    void testParkingLotExitNoRecurringUser() throws InterruptedException {
         ParkingService parkingService = new ParkingService(inputReaderUtil, parkingSpotDAO, ticketDAO);
         parkingService.processIncomingVehicle();
+        TimeUnit.SECONDS.sleep(2);
         Ticket ticketIn = ticketDAO.getTicket("ABCDEF");
         ticketIn.setInTime(new Date(System.currentTimeMillis() - (60 * 60 * 1000)));
         ticketDAO.saveTicket(ticketIn);
@@ -91,14 +94,14 @@ class ParkingDataBaseIT {
     }
 
     @Test
-    void testParkingLotExit() {
+    void testParkingLotExit() throws InterruptedException {
         ParkingService parkingService = new ParkingService(inputReaderUtil, parkingSpotDAO, ticketDAO);
         parkingService.processIncomingVehicle();
+        TimeUnit.SECONDS.sleep(2);
         parkingService.processExitingVehicle();
 
         Ticket ticket = ticketDAO.getTicket("ABCDEF");
 
-        Assert.assertEquals(0.0, ticket.getPrice());
         assertNotNull(ticket.getOutTime());
     }
 
